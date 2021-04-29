@@ -4,9 +4,16 @@ function setup() {
   createCanvas(700, 700);
   shuffle1(rumors)
   console.log(shuffle1(rumors))
-  button = createButton('Generate new board');
-  button.position(725, 350);
-  button.mousePressed(setup);
+  button1 = createButton('Generate new board');
+  button1.position(725, 350);
+  button1.mousePressed(setup);
+  button2 = createButton('Save board as jpg');
+  button2.position(725, 370);
+  button2.mousePressed(saveAsJPG);
+}
+
+function saveAsJPG(){
+  saveCanvas('Bingo', 'jpg');
 }
 
 function draw() {
