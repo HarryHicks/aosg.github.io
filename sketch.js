@@ -16,10 +16,12 @@ function draw() {
     for(j = 0; j < 5; j++){
       rect(i*140,j*140,140,140)
       if(j == 2 && i == 2){
-        text("Free: More than \ntwo RE are for \nUnderworlds/\nWarcry", 290, 290, 100, 100)
+        text("Free: More than \ntwo RE are for \nUnderworlds/\nWarcry", 300, 300, 100, 100);
+        textAlign(CENTER, CENTER);
       }
       else{
-        text(rumors[index], i*140+10, j*140+10, 100, 100)  
+        text(rumors[index], i*140+20, j*140+20, 100, 100)
+        textAlign(CENTER, CENTER);
       }
       index++;
     }
