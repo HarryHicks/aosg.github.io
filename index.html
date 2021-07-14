@@ -1,0 +1,123 @@
+<!DOCTYPE html><html lang="en"><head>
+    <script src="p5.js"></script>
+    <script src="p5.sound.min.js"></script>
+    <script src="abilities.js"></script>
+    <script src="ancestries.js"></script>
+    <script src="archetypes.js"></script>
+    <script src="charenhance.js"></script>
+    <script src="companions.js"></script>
+    <script src="tables.js"></script>
+    <script src="sketch.js"></script>
+    <script src="weapons.js"></script>
+    <link rel="stylesheet" type="text/css" href="style.css">
+    <meta charset="utf-8">
+
+
+  </head>
+  <body>
+    <div class="leftsidebox">
+      <div class="title">Anvil of Apotheosis Hero Creator<br>
+      </div>
+      <div class="title">Introduction<br>
+      </div>
+      This is a tool to help create heroes from the Anvil of Apotheosis with all the restrictions baked into the options. I am in no way connected with Games Workshop or White Dwarf. The Anvil of Apotheosis is their creation and i only made this site for fun.<br>
+      <div class="title">Information<br>
+      </div>
+      I am working as fast as i can to add all the options, i will update the checklist when that happens. If you find any errors send me an email at <a href="mailto:chorfenjoyer@cock.li">chorfenjoyer@cock.li</a>. I will continue to create similar things for tabletop games in the future, if you want to support me in my work you can give a poor student a coffee at <a href="buymeacoffee.com/chorfenjoyer">buymeacoffee.com/chorfenjoyer</a> ;)
+    </div>
+
+    <div class="rightsidebox">Checklist: <br>
+      Anvil of Apotheosis - Done <br>
+      Anvil of Chaos - Not added <br>
+      Anvil of Blood - Not added <br>
+      Anvil of Destruction - Not added <br></div>
+    <div class ="mainbody" id="mainbody">
+      <div class ="category" id="ancestrycategory">
+        <input type="button" id="ancestrycategorybutton" value="+" onclick="setVisible('ancestrycategory')">
+        1. Ancestry
+        <div class="subcategory">
+          <div class="dropdown">
+            <span id="ancestry-span">1.1. Select Ancestry</span>
+            <div id="ancestry-dropdown" class="dropdown-content">
+            </div>
+          </div>
+          <div id="faction" class="dropdown">
+            <span id="faction-span">1.2. Select Faction</span>
+            <div id="faction-dropdown" class="dropdown-content">
+            </div>
+          </div>
+        </div>
+      </div>
+      <div class="category" id="armourycategory">
+        <input type="button" id="armourycategorybutton" value="+" onclick="setVisible('armourycategory')">
+        2. The Armoury
+        <div class="subcategory">
+          <div id="weapon1" class="dropdown">
+            <span id="weapon1-span">2.1. Select Weapon</span>
+            <div id="weapon1-dropdown" class="dropdown-content">
+            </div>
+          </div>
+          <div id="weapon2" class="dropdown">
+            <span id="weapon2-span">2.2. Select Weapon</span>
+            <div id="weapon2-dropdown" class="dropdown-content">
+            </div>
+          </div>
+        </div>
+      </div>
+      <div class="category" id="archetypecategory">
+        <input type="button" id="archetypecategorybutton" value="+" onclick="setVisible('archetypecategory')">
+        3. Arcetype
+        <div class="subcategory">
+          <div id="archetype" class="dropdown">
+            <span id="archetype-span">3.1. Select Archetype</span>
+            <div id="archetype-dropdown" class="dropdown-content">
+            </div>
+          </div>
+          <div id="archetypeoption" class="dropdown">
+            <span id="archetypeoption-span">3.2. Select Ability</span>
+            <div id="archetypeoption-dropdown" class="dropdown-content">
+            </div>
+          </div>  
+        </div>
+      </div>
+      <div class="category" id="companioncategory">
+        <input type="button" id="companioncategorybutton" value="+" onclick="setVisible('companioncategory')">
+        4. Bestial Companion
+        <div class="subcategory">
+          <div id="companion" class="dropdown">
+            <span id="companion-span">4.1. Select Bestial Companion</span>
+            <div id="companion-dropdown" class="dropdown-content">
+            </div>
+          </div>
+          <div id="companionabilities">
+          </div>
+          <div id="companionenhancements">
+          </div>
+        </div>
+      </div>
+      <div class="category" id="charactercategory">
+        <input type="button" id="charactercategorybutton" value="+" onclick="setVisible('charactercategory')">
+        5. Characteristic Enhancements and Abilites
+        <div class="subcategory">
+          <div id="characterabilities">
+          </div>
+          <div id="characterenhancements">
+          </div>
+        </div>
+      </div>
+      <div class="category" id="namecategory">
+        <input type="button" id="namecategorybutton" value="+" onclick="setVisible('namecategory')">
+        6. Naming your hero
+        <div class="subcategory">
+          <span>6.1. Character Name</span>
+          <input type="text" id="name">
+          <span>6.2. Character title</span>
+          <input type="text" id="title">
+        </div>
+      </div>
+      <input type="button" value="Download Warscroll" id="savebutton">
+    </div>
+    
+
+
+</body></html>
