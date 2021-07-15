@@ -136,7 +136,7 @@ function addEnhancementElement(enhancement, id){
     if(firstWeapon != null){
       divnode2.appendChild(addEnhancementBox(enhancement, firstWeapon, firstWeaponaux));
     }
-    if(secondWeapon != null){
+    if(secondWeapon != null && secondWeapon.name != "None" && secondWeapon.name != "Shield"){
       divnode2.appendChild(addEnhancementBox(enhancement, secondWeapon, secondWeaponaux));
     }
   }
@@ -461,12 +461,17 @@ function drawWeapons(weapons, type, startPoint){
 
 function drawPointCost(cost, list){
   var pointCost = cost + calculateEnhancements(list);
+  fill("white");
+  stroke(gold);
+  circle(599, 21, 40);
   textSize(25);
+  noStroke();
+  fill("black");
   if(pointCost > 9){
-    text(pointCost, 585, 25);
+    text(pointCost, 585, 29);
   }
   else{
-    text(pointCost, 595, 25);
+    text(pointCost, 593, 29);
   }
 }
 

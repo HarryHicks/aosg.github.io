@@ -34,13 +34,13 @@ var ancestries =
         "rules" : []
       },
       {
-        "name" : "CHAOS DUARDIN",
+        "name" : "DAWI ZHARR",
         "move" : 4,
         "wounds" : 5,
         "save" : 4,
         "bravery" : 7,
         "cost" : 4,
-        "keywords" : ["ORDER", "DUARDIN", "Legion of Azgorh"],
+        "keywords" : ["CHAOS", "DAWI ZHARR", "Legion of Azgorh"],
         "armykeywords" : [],
         "rules" : []
       },
