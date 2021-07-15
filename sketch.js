@@ -8,6 +8,8 @@
     "save" : 0,
     "bravery" : 0
   }
+  var wasShield = false;
+  var isShield = false;
   var factionKeyword = "";
   var archetype;
   var archetypeOption1;
@@ -18,7 +20,6 @@
   var secondWeaponaux;
   var companion;
   var companionWounds = 0;
-  var shieldBonus = 0;
   var companionWeaponsaux = [];
   var charenhanceaux = charEnhancements;
   var companionenhanceaux = companionEnhancements;
@@ -793,9 +794,13 @@ function addCharacterAbilities(){
 
 function addCharacterEnhancements(){
   resetCharacterEnhancements();
+  if(isShield == true && wasShield == false){
+    baseStats.save += -1;
+  }
+  else if (isShield == false && wasShield == true){
+    baseStats.save += 1;
+  }
   if(ancestry != null && firstWeapon != null && (firstWeapon.onehanded == false || secondWeapon != null)){
-    baseStats.wounds += companionWounds;
-    baseStats.save += shieldBonus;
     var ce = charEnhancements;
     for (let i = 0; i < ce.length; i++) {
       addEnhancementElement(ce[i], "characterenhancements");
@@ -839,6 +844,13 @@ function setFirstWeapon(weapon){
   firstWeapon = weapon;
   firstWeaponaux = Object.assign({}, weapon);
   document.getElementById("weapon1-span").textContent = "2.1. " + firstWeapon.name;
+  if(secondWeaponaux != null && secondWeaponaux.name == "Shield"){
+    wasShield = true;
+  }
+  else{
+    wasShield = false;
+  }
+  isShield = false;
   resetSecondWeapon();
   addSecondWeapon();
   addCharacterEnhancements();
@@ -847,11 +859,17 @@ function setFirstWeapon(weapon){
 function setSecondWeapon(weapon){
   secondWeapon = weapon;
   if(secondWeaponaux != null && secondWeaponaux.name == "Shield"){
-    shieldBonus += 1;
+    wasShield = true;
+  }
+  else{
+    wasShield = false;
   }
   secondWeaponaux = weapon;
   if(secondWeapon.name == "Shield"){
-    shieldBonus -= 1;
+    isShield = true;
+  }
+  else{
+    isShield = false;
   }
   document.getElementById("weapon2-span").textContent = "2.2. " + secondWeapon.name;
   addCharacterEnhancements();
@@ -904,6 +922,8 @@ function resetFaction(){
 }
 
 function resetSecondWeapon(){
+  secondWeapon = null;
+  secondWeaponaux = null;
   document.getElementById("weapon2-span").textContent = "2.2. Select Second Weapon";
   document.getElementById("weapon2-dropdown").innerHTML = '';
   document.getElementById("weapon2").style.display = "none";
