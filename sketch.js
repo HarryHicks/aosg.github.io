@@ -652,7 +652,7 @@ function setup() {
   addFirstWeapon();
   addArchetype();
   addCompanion();
-  addCharacterExtras();
+  addCharacterExtras(false);
   document.getElementById("savebutton").onclick = function(){saveWarscroll()};
 }
 
@@ -773,9 +773,9 @@ function addCompanionEnhancements(){
   }
 }
 
-function addCharacterExtras(){
+function addCharacterExtras(b){
   addCharacterAbilities();
-  addCharacterEnhancements();
+  addCharacterEnhancements(b);
 }
 
 function addCharacterAbilities(){
@@ -795,14 +795,17 @@ function addCharacterAbilities(){
   }
 }
 
-function addCharacterEnhancements(){
+function addCharacterEnhancements(b){
   resetCharacterEnhancements();
-  if(isShield == true && wasShield == false){
-    baseStats.save += -1;
+  if(b == true){
+    if(isShield == true && wasShield == false){
+      baseStats.save += -1;
+    }
+    else if (isShield == false && wasShield == true){
+      baseStats.save += 1;
+    }
   }
-  else if (isShield == false && wasShield == true){
-    baseStats.save += 1;
-  }
+
   if(ancestry != null && firstWeapon != null && (firstWeapon.onehanded == false || secondWeapon != null)){
     var ce = charEnhancements;
     for (let i = 0; i < ce.length; i++) {
@@ -833,7 +836,7 @@ function setAncestry(a) {
   addArchetype();
   checkResetCompanion();
   addCompanion();
-  addCharacterExtras();
+  addCharacterExtras(false);
 }
 
 function setFaction(word){
@@ -856,7 +859,7 @@ function setFirstWeapon(weapon){
   isShield = false;
   resetSecondWeapon();
   addSecondWeapon();
-  addCharacterEnhancements();
+  addCharacterEnhancements(true);
 }
 
 function setSecondWeapon(weapon){
@@ -875,7 +878,7 @@ function setSecondWeapon(weapon){
     isShield = false;
   }
   document.getElementById("weapon2-span").textContent = "2.2. " + secondWeapon.name;
-  addCharacterEnhancements();
+  addCharacterEnhancements(true);
 }
 
 function setArchetype(a){
@@ -887,7 +890,7 @@ function setArchetype(a){
     "effect" : archetype.description
   }
   addArchetypeOption();
-  addCharacterExtras();
+  addCharacterExtras(false);
 }
 
 function setArchetypeOption(option){
