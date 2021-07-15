@@ -117,7 +117,7 @@ function addEnhancementElement(enhancement, id){
   if(id == "companionenhancements" && enhancement.weapon == "all"){
     for(var i = 0; i < companionWeaponsaux.length; i++){
       let weapon = companionWeaponsaux[i];
-      if(weapon.random == false || weapon.stat != "damage"){
+      if(weapon.random == false || enhancement.stat != "damage"){
         divnode2.appendChild(addEnhancementBox(enhancement, weapon, companionWeapons[weapon.name]));
       }
     }
@@ -125,16 +125,16 @@ function addEnhancementElement(enhancement, id){
   else if(id == "companionenhancements"){
     for(var i = 0; i < companionWeaponsaux.length; i++){
       let weapon = companionWeaponsaux[i];
-      if((weapon.random == false || weapon.stat != "damage") && companionWeaponsaux[i].name.includes(enhancement.weapon)){
+      if((weapon.random == false || enhancement.stat != "damage") && companionWeaponsaux[i].name.includes(enhancement.weapon)){
         divnode2.appendChild(addEnhancementBox(enhancement, weapon, companionWeapons[weapon.name]));
       }
     }
   }
   else if(enhancement.weapon == "all"){
-    if(firstWeapon != null){
+    if(firstWeapon != null && (firstWeapon.random == false || enhancement.stat != "damage")){
       divnode2.appendChild(addEnhancementBox(enhancement, firstWeapon, firstWeaponaux));
     }
-    if(secondWeapon != null && secondWeapon.name != "None" && secondWeapon.name != "Shield"){
+    if(secondWeapon != null && secondWeapon.name != "None" && secondWeapon.name != "Shield" && (secondWeapon.random == false || enhancement.stat != "damage")){
       divnode2.appendChild(addEnhancementBox(enhancement, secondWeapon, secondWeaponaux));
     }
   }
@@ -581,6 +581,7 @@ function draw() {
         keywords.push("TOTEM");
       }
       abilityList.push(abilities[i]);
+      pointCost += abilities[i].cost;
     }
   }
   if(ancestry != null && firstWeapon != null && (firstWeapon.onehanded == false || secondWeapon != null)){
@@ -613,6 +614,8 @@ function draw() {
     rightHeight += 130 * tableList.length;
   }
   drawAbilities(abilityList, rightHeight + 15);
+  let a = abilities;
+
   drawPointCost(pointCost, timesTakenList);
   var ev = document.getElementById("name").value;
   if(ev != "" && ev.length < 26){
