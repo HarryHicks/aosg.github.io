@@ -27,9 +27,6 @@
 
 /*----------------------HELP FUNCTIONS--------------------------*/
 function keywordsString(list){
-  if(list.length == 0){
-    return "HERO";
-  }
   keywordList = "";
   for(var i = 0; i < list.length; i++) {
     keywordList = keywordList + list[i] + ',';
