@@ -358,11 +358,12 @@ function drawAbilitiesAux(list, w, h){
 
 function drawBaseStats(stats){
   text(stats.move + '"', 65, 55);
-  if(stats.wounds >= 10){
-      text(stats.wounds, 33, 85);
+  let wounds = stats.wounds + companionWounds;
+  if(wounds >= 10){
+      text(wounds, 33, 85);
     }
     else{
-    text(stats.wounds, 40, 85);
+    text(wounds, 40, 85);
     }
   text(stats.save + '+', 92, 85);
     if(stats.bravery >= 10){
@@ -512,15 +513,6 @@ function draw() {
       abilityList.push(ethereal);
       abilityList.push(fly);
     }
-    for (let i = 0; i < abilities.length; i++) {
-      if(abilities[i].checked == true){
-        if(abilities[i].name == "Battle Standard Bearer"){
-          keywords.push("TOTEM");
-        }
-        abilityList.push(abilities[i]);
-      }
-    }
-
     keywords.push.apply(keywords, ancestry.keywords);
     pointCost = ancestry.cost;
   }
@@ -564,11 +556,12 @@ function draw() {
       timesTakenList.push.apply(timesTakenList, companionEnhancements);
     }
   }
-  let a = abilities;
-  for(var i = 0; i < a.length; i++){
-    if(a[i].checked == true){
-      abilityList.push(a[i]);
-      pointCost += a[i].cost;
+  for (let i = 0; i < abilities.length; i++) {
+    if(abilities[i].checked == true){
+      if(abilities[i].name == "Battle Standard Bearer"){
+        keywords.push("TOTEM");
+      }
+      abilityList.push(abilities[i]);
     }
   }
   if(ancestry != null && firstWeapon != null && (firstWeapon.onehanded == false || secondWeapon != null)){

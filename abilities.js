@@ -89,14 +89,6 @@ var abilities =
         "effect" : "This model can run and still charge in the same turn." 
       },
       {
-        "name" : "Decap",
-        "cost" : 4,
-        "checked" : false,
-        "restrictions" : [],
-        "allowed" : [],
-        "effect" : "If the unmodified wound roll for an attack made with this model's melee weapons (not including mount weapons) is 6, that attack inflicts 1 mortal wound on the target in addition to any normal damage." 
-      },
-      {
         "name" : "Decapitating Strike",
         "cost" : 4,
         "checked" : false,
