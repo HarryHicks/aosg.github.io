@@ -7,7 +7,8 @@ var companions = [
     "effect" : "Add 1 to your hero's Wounds characteristic.",
     "wounds" : 1,
     "move" : 0,
-    "cost" : 6
+    "cost" : 6,
+    "keywords" : []
   },
   {
     "name" : "MOUNTED",
@@ -17,7 +18,8 @@ var companions = [
     "effect" : "Add 2 to your hero's Wounds characteristic. Change your hero's Move characteristic to 8" + '"',
     "wounds" : 2,
     "move" : 8,
-    "cost" : 8
+    "cost" : 8,
+    "keywords" : []
   },
 {
     "name" : "GARGANTUAN",
@@ -27,7 +29,8 @@ var companions = [
     "effect" : "Add 8 to your hero's Wounds characteristic. Change your hero's Move characteristic to *",
     "wounds" : 8,
     "move" : "*",
-    "cost" : 15
+    "cost" : 15,
+    "keywords" : ["MONSTER"]
   },
   {
     "name" : "None",

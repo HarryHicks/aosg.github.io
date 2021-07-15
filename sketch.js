@@ -8,7 +8,7 @@
     "save" : 0,
     "bravery" : 0
   }
-  var factionKeyword;
+  var factionKeyword = "";
   var archetype;
   var archetypeOption1;
   var archetypeOption2;
@@ -26,8 +26,8 @@
   var missileWeaponsHeight;
 
 /*----------------------HELP FUNCTIONS--------------------------*/
-function keywordsList(list){
-  if(list.length == 1){
+function keywordsString(list){
+  if(list.length == 0){
     return "HERO";
   }
   keywordList = "";
@@ -297,6 +297,21 @@ function updateTimesTaken(list){
   }
 }
 
+function mountWeaponsString(c){
+  let s = "";
+  if(c.weapons.length > 1){
+    s+= c.weapons[0];
+    for(let i = 1; i < c.weapons - 1; i++){
+      s+= ", " + c.weapons[i];
+    }
+    s+= " and " + c.weapons[c.weapons.length - 1];
+    return s;
+  }
+  else{
+    return c.weapons[0];
+  }
+
+}
 /*----------------------DRAW FUNCTIONS--------------------------*/
 function drawAbilities(list, startPoint){
   var lists = splitAbilities(list);
@@ -516,11 +531,9 @@ function draw() {
     keywords.push.apply(keywords, ancestry.keywords);
     pointCost = ancestry.cost;
   }
-
   if(factionKeyword != ""){
-    keywords.push.apply(keywords, [factionKeyword]);
+    keywords.push(factionKeyword);
   }
-
   if (firstWeapon != null){
     allWeapons.push(firstWeapon);
     pointCost += firstWeapon.cost;
@@ -545,6 +558,14 @@ function draw() {
       if(companion.table == true){
         tableList.push(tables[companion.name]);
       }
+      let mount = {
+        "name" : "Mount",
+        "cost" : 0,
+        "checked" : false,
+        "effect" : "This model's mount attacks with its " + mountWeaponsString(companion)
+      };
+      abilityList.push(mount);
+      keywords.push.apply(keywords, companion.keywords);
       allWeapons.push.apply(allWeapons, companionWeaponsaux);
       let ca = companionAbilities;
       for(var i = 0; i < ca.length; i++){
@@ -571,7 +592,7 @@ function draw() {
   updateTimesTaken(timesTakenList);
   drawBaseStats(baseStats);
   textSize(10);
-  drawKeywords(keywordsList(keywords));
+  drawKeywords(keywordsString(keywords));
   for(var i = 0; i < allWeapons.length; i++){
     let weapon = allWeapons[i];
     if(weapon.type == "melee"){
