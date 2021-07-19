@@ -9,7 +9,25 @@ var ancestries =
         "cost" : 3,
         "keywords" : ["ORDER", "AELF"],
         "armykeywords" : ["Daughters of Khaine", "Idoneth Deepkin", "Lumineth Realm-lords", "Cities of Sigmar"],
-        "rules" : []
+        "abilities" : []
+      },
+      {
+        "name" : "ABHORRANT",
+        "move" : 6,
+        "wounds" : 6,
+        "save" : 5,
+        "bravery" : 10,
+        "cost" : 7,
+        "keywords" : ["DEATH", "VAMPIRE", "FLESH-EATER COURTS", "ABHORRANT", "WIZARD"],
+        "armykeywords" : [],
+        "abilities" : [
+          {
+          "name" : "Summon Men-at-arms",
+          "cost" : 0,
+          "checked" : false,
+          "effect" : "You can use this command ability at the end of your movement phase. If you do so, pick 1 friendly model that has this command ability and has not used it before in the battle. That model summons 1 unit of up to 10 SERFS to the battlefield. The summoned unit is added to your army and must be set up wholly within 6" +'"' + " of the edge of the battlefield and more than 9" + '"' + " from any enemy units."
+          },
+        ]
       },
       {
         "name" : "BONESPLITTER ORRUK",
@@ -20,7 +38,7 @@ var ancestries =
         "cost" : 3,
         "keywords" : ["DESTRUCTION", "ORRUK", "ORRUK WARCLANS", "BONESPLITTERZ"],
         "armykeywords" : [],
-        "rules" : []
+        "abilities" : []
       },
       {
         "name" : "BULLGOR",
@@ -31,7 +49,25 @@ var ancestries =
         "cost" : 8,
         "keywords" : ["CHAOS", "BEASTS OF CHAOS", "WARHERD", "BULLGOR"],
         "armykeywords" : [],
-        "rules" : []
+        "abilities" : []
+      },
+      {
+        "name" : "COURTIER",
+        "move" : 6,
+        "wounds" : 4,
+        "save" : 5,
+        "bravery" : 10,
+        "cost" : 5,
+        "keywords" : ["DEATH", "MORDANT", "FLESH-EATER COURTS", "COURTIER"],
+        "armykeywords" : [],
+        "abilities" : [
+          {
+            "name" : "Muster Serfs",
+            "cost" : 0,
+            "checked" : false,
+            "effect" : "In your hero phase, if this model is in your army and on the battlefield, roll 6 dice. For each 2+, you can return 1 slain model to a friendly SERFS unit that is within 10" + '"' + " of this model. Slain models can be returned to more than one unit if you wish, but each successful dice roll can only be used to return a model to a single unit."
+          },
+        ]
       },
       {
         "name" : "DAWI ZHARR",
@@ -42,7 +78,7 @@ var ancestries =
         "cost" : 4,
         "keywords" : ["CHAOS", "DAWI ZHARR", "Legion of Azgorh"],
         "armykeywords" : [],
-        "rules" : []
+        "abilities" : []
       },
       {
         "name" : "DAEMON",
@@ -53,7 +89,7 @@ var ancestries =
         "cost" : 5,
         "keywords" : ["CHAOS", "DAEMON"],
         "armykeywords" : ["Khorne", "Tzeentch", "Nurgle", "Slaanesh"],
-        "rules" : []
+        "abilities" : []
       },
       {
         "name" : "DEATHMAGE",
@@ -64,7 +100,7 @@ var ancestries =
         "cost" : 3,
         "keywords" : ["DEATH", "DEATHMAGE"],
         "armykeywords" : ["Grand Host of Nagash", "Legion of Sacrament", "Legion of Blood", "Legion of Night"],
-        "rules" : []
+        "abilities" : []
       },
       {
         "name" : "DRAGON OGOR",
@@ -75,7 +111,7 @@ var ancestries =
         "cost" : 10,
         "keywords" : ["CHAOS", "BEASTS OF CHAOS", "THUNDERSCORN", "DRAGON OGOR"],
         "armykeywords" : [],
-        "rules" : []
+        "abilities" : []
       },
       {
         "name" : "DUARDIN",
@@ -86,7 +122,7 @@ var ancestries =
         "cost" : 4,
         "keywords" : ["ORDER", "DUARDIN"],
         "armykeywords" : ["Cities of Sigmar", "Fyreslayers", "Kharadron Overlords"],
-        "rules" : []
+        "abilities" : []
       },
       {
         "name" : "GOR",
@@ -97,7 +133,7 @@ var ancestries =
         "cost" : 3,
         "keywords" : ["CHAOS", "GOR", "BRAYHERD"],
         "armykeywords" : ["Beasts of Chaos", "Tzeentch"],
-        "rules" : []
+        "abilities" : []
       },
       {
         "name" : "GROT",
@@ -108,7 +144,7 @@ var ancestries =
         "cost" : 3,
         "keywords" : ["DESTRUCTION", "GROT", "GLOOMSPITE GITZ"],
         "armykeywords" : ["Moonclan", "Spiderfang"],
-        "rules" : []
+        "abilities" : []
       },
       {
         "name" : "HUMAN",
@@ -119,7 +155,7 @@ var ancestries =
         "cost" : 4,
         "keywords" : ["ORDER", "HUMAN", "CITIES OF SIGMAR"],
         "armykeywords" : [],
-        "rules" : []
+        "abilities" : []
       },
       {
         "name" : "IRONJAW ORRUK",
@@ -130,7 +166,25 @@ var ancestries =
         "cost" : 5,
         "keywords" : ["DESTRUCTION", "ORRUK", "ORRUK WARCLANS", "IRONJAWS"],
         "armykeywords" : [],
-        "rules" : []
+        "abilities" : []
+      },
+      {
+        "name" : "LIEGE",
+        "move" : 5,
+        "wounds" : 5,
+        "save" : 4,
+        "bravery" : 10,
+        "cost" : 12,
+        "keywords" : ["DEATH", "OSSIARCH BONEREAPERS", "LIEGE", "HERO"],
+        "armykeywords" : [],
+        "abilities" : [
+          {
+          "name" : "Endless Duty",
+          "cost" : 0,
+          "checked" : false,
+          "effect" : "You can use this command ability in your shooting phase or any combat phase. If you do so, pick 1 friendly OSSIARCH BONEREAPERS unit that is wholly within 12" + '"' + " of a model with this command ability. Add 1 to the Attacks characteristic of weapons used by that unit in that phase. You cannot pick the same unit to benefit from this command ability more than once per phase."
+          }
+        ]
       },
       {
         "name" : "MALIGNANT",
@@ -141,7 +195,20 @@ var ancestries =
         "cost" : 12,
         "keywords" : ["DEATH", "MALIGNANT", "NIGHTHAUNT"],
         "armykeywords" : [],
-        "rules" : ["Fly", "Ethereal"]
+        "abilities" : [
+          {
+          "name" : "Fly",
+          "cost" : 0,
+          "checked" : false,
+          "effect" : "This model can fly."
+          },
+          {
+            "name" : "Ethereal",
+            "cost" : 0,
+            "checked" : false,
+            "effect" : "Ignore modifiers (positive or negative) when making save rolls for attacks that target this model."
+          }
+        ]
       },
       {
         "name" : "MORDANT",
@@ -152,7 +219,7 @@ var ancestries =
         "cost" : 6,
         "keywords" : ["DEATH", "MORDANT", "FLESH-EATER COURTS"],
         "armykeywords" : [],
-        "rules" : []
+        "abilities" : []
       },
       {
         "name" : "MORTAL",
@@ -163,7 +230,18 @@ var ancestries =
         "cost" : 4,
         "keywords" : ["CHAOS", "MORTAL"],
         "armykeywords" : ["Khorne", "Tzeentch", "Nurgle", "Slaanesh"],
-        "rules" : []
+        "abilities" : []
+      },
+      {
+        "name" : "MORTISAN",
+        "move" : 5,
+        "wounds" : 5,
+        "save" : 4,
+        "bravery" : 10,
+        "cost" : 4,
+        "keywords" : ["DEATH", "OSSIARCH BONEREAPERS", "MORTISAN", "WIZARD"],
+        "armykeywords" : [],
+        "abilities" : []
       },
       {
         "name" : "OGOR",
@@ -174,7 +252,7 @@ var ancestries =
         "cost" : 7,
         "keywords" : ["DESTRUCTION", "OGOR", "OGOR MAWTRIBES"],
         "armykeywords" : ["Beastclaw Raiders", "Gutbusters"],
-        "rules" : []
+        "abilities" : []
       },
       {
         "name" : "OSSIARCH BONEREAPER",
@@ -185,7 +263,7 @@ var ancestries =
         "cost" : 5,
         "keywords" : ["DEATH", "OSSIARCH BONEREAPERS"],
         "armykeywords" : [],
-        "rules" : []
+        "abilities" : []
       },
       {
         "name" : "SAURUS",
@@ -196,7 +274,7 @@ var ancestries =
         "cost" : 6,
         "keywords" : ["ORDER", "SERAPHON", "SAURUS"],
         "armykeywords" : [],
-        "rules" : []
+        "abilities" : []
       },
       {
         "name" : "SKAVEN",
@@ -207,7 +285,7 @@ var ancestries =
         "cost" : 3,
         "keywords" : ["CHAOS", "SKAVEN", "SKAVENTIDE"],
         "armykeywords" : ["Masterclan", "Clans Pestilens, Nurgle", "Clans Verminus", "Clans Skryre", "Clans Moulder", "Clans Eshin"],
-        "rules" : []
+        "abilities" : []
       },
       {
         "name" : "SKELETON",
@@ -218,7 +296,7 @@ var ancestries =
         "cost" : 3,
         "keywords" : ["DEATH", "SKELETON", "DEATHRATTLE"],
         "armykeywords" : [],
-        "rules" : []
+        "abilities" : []
       },
       {
         "name" : "SKINK",
@@ -229,7 +307,7 @@ var ancestries =
         "cost" : 4,
         "keywords" : ["ORDER", "SERAPHON", "SKINK"],
         "armykeywords" : [],
-        "rules" : []
+        "abilities" : []
       },
       {
         "name" : "STORMCAST ETERNAL",
@@ -240,7 +318,7 @@ var ancestries =
         "cost" : 5,
         "keywords" : ["ORDER", "CELESTIAL", "HUMAN", "STORMCAST ETERNALS"],
         "armykeywords" : [],
-        "rules" : []
+        "abilities" : []
       },
       {
         "name" : "VAMPIRE",
@@ -251,7 +329,7 @@ var ancestries =
         "cost" : 4,
         "keywords" : ["DEATH", "VAMPIRE", "SOULBLIGHT"],
         "armykeywords" : [],
-        "rules" : []
+        "abilities" : []
       },
       {
         "name" : "SYLVANETH",
@@ -262,6 +340,6 @@ var ancestries =
         "cost" : 4,
         "keywords" : ["ORDER", "SYLVANETH"],
         "armykeywords" : [],
-        "rules" : []
+        "abilities" : []
       },
     ]

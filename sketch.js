@@ -6,7 +6,8 @@
     "move" : 0,
     "wounds" : 0,
     "save" : 0,
-    "bravery" : 0
+    "bravery" : 0,
+    "spells" : 1
   }
   var wasShield = false;
   var isShield = false;
@@ -21,6 +22,7 @@
   var companion;
   var companionWounds = 0;
   var companionWeaponsaux = [];
+  var enhancements = charEnhancements;
   var charenhanceaux = charEnhancements;
   var companionenhanceaux = companionEnhancements;
   var meleeWeaponsHeight;
@@ -30,9 +32,26 @@
 function keywordsString(list){
   keywordList = "";
   for(var i = 0; i < list.length; i++) {
-    keywordList = keywordList + list[i] + ',';
+    keywordList = keywordList + list[i] + ", ";
   }
   return keywordList + "HERO";
+}
+
+function checkResetWeapons(){
+  if(firstWeaponaux != null){
+    var i;
+    var list = [];
+    var w = getWeapons();
+    for(i = 0; i < w.onehanded.length; i++){
+      list.push(w.onehanded[i].name);
+    }
+    if(!list.includes(firstWeaponaux.name)){
+      resetFirstWeapon();
+    }
+  }
+  else{
+    document.getElementById("weapon1-dropdown").innerHTML = '';
+  }
 }
 
 function checkResetArchetype(){
@@ -45,7 +64,7 @@ function checkResetArchetype(){
 }
 
 function checkResetCompanion(){
-  if(companion != null && anyElementInList(ancestry.keywords, companion.restrictions)){
+  if(companion != null && (anyElementInList(ancestry.keywords, companion.restrictions) || (archetype != null && anyElementInList(archetype.keywords, companion.restrictions)))){
     resetCompanion();
   }
   else{
@@ -55,7 +74,7 @@ function checkResetCompanion(){
 }
 
 function restrictionsApply(){
-  if(anyElementInList(archetype.restrictions, ancestry.keywords) || anyElementInList(archetype.restrictions, [factionKeyword.toUpperCase()])){
+  if(anyElementInList(archetype.restrictions, ancestry.keywords) || anyElementInList(archetype.restrictions, [factionKeyword.toUpperCase()]) || archetype.restrictions.length == 0){
     return true;
   }
   return false;
@@ -134,7 +153,7 @@ function addEnhancementElement(enhancement, id){
     if(firstWeapon != null && (firstWeapon.random == false || enhancement.stat != "damage")){
       divnode2.appendChild(addEnhancementBox(enhancement, firstWeapon, firstWeaponaux));
     }
-    if(secondWeapon != null && secondWeapon.name != "None" && secondWeapon.name != "Shield" && (secondWeapon.random == false || enhancement.stat != "damage")){
+    if(secondWeapon != null && secondWeapon.name != "None" && !secondWeapon.name.includes("Shield") && (secondWeapon.random == false || enhancement.stat != "damage")){
       divnode2.appendChild(addEnhancementBox(enhancement, secondWeapon, secondWeaponaux));
     }
   }
@@ -310,6 +329,41 @@ function mountWeaponsString(c){
   }
 
 }
+
+function getWeapons(){
+  if(ancestry != null){
+    if(["MORTISAN", "LIEGE"].includes(ancestry.name)){
+      return ossiarchWeapons;
+    }
+    else if(["ABHORRANT", "COURTIER"].includes(ancestry.name)){
+      return courtWeapons;
+    }
+    else{
+      return weapons;
+    }
+  }
+  else{
+    return weapons;
+  }
+}
+
+function setEnhancements(){
+  if(ancestry != null){
+    if(["ABHORRANT", "COURTIER", "MORTISAN", "LIEGE"].includes(ancestry.name)){
+      charenhanceaux = undeadEnhancements;
+      enhancements = undeadEnhancements;
+    }
+    else{
+      charenhanceaux = charEnhancements;
+      enhancements = charEnhancements;
+    }
+  }
+  else{
+    charenhanceaux = charEnhancements;
+    enhancements = charEnhancements;
+  }
+  
+}
 /*----------------------DRAW FUNCTIONS--------------------------*/
 function drawAbilities(list, startPoint){
   var lists = splitAbilities(list);
@@ -319,45 +373,40 @@ function drawAbilities(list, startPoint){
   leftHeight = 160;
   var h1;
   var w1 = 160;
+  textSize(13);
   for (var i = 0; i < leftList.length; i++){
     if(archetypeOption1 != null && i == 0){
-      if(archetypeOption1.name == "COMMANDER"){
-        h1 = 90;
+      if(archetypeOption1.name == "UNDEAD MAGE"){
+        archetypeOption1.effect = archetype.description.replaceAll("$", baseStats.spells);
       }
-      else if(archetypeOption1.name == "ACOLYTE"){
-        h1 = 220;
-      }
-      else{
-        h1 = 250;
-      }
+      h1 = archetypeOption1.height;
       fill('white');
       stroke(color(gold));
       rect(5, 160, w1, h1);
       noStroke();
       fill('black');
-      textSize(13);
       text(leftList[i].name + ': ' + leftList[i].effect, 5, 162, w1, h1);
       leftHeight +=  h1;
     }
+
     else {
       fill('white');
       stroke(color(gold));
       rect(5, leftHeight + 5, w1, 200);
       noStroke();
       fill('black');
-      textSize(13);
       text(leftList[i].name + ': ' + leftList[i].effect, 5, leftHeight + 7, w1, 200);
       leftHeight += 205;
     }
   }
   leftHeight -= 10;
-  rightHeight += (middleList.length)*180;
+  rightHeight += (middleList.length)*210;
   drawAbilitiesAux(middleList, 170, startPoint);
   drawAbilitiesAux(rightList, 395, startPoint);
 }
 
 function drawAbilitiesAux(list, w, h){
-  var h1 = 170;
+  var h1 = 200;
   var w1 = 220;
   for (var i = 0; i < list.length; i++){
     fill('white');
@@ -506,26 +555,11 @@ function draw() {
   }
   background(240);
   image(img, 0,0, img.width / 2, img.height / 2);
-  rightHeight = 85;
+  rightHeight = 120;
   textSize(25);
 
   if(ancestry != null){
-    if(ancestry.name == "MALIGNANT"){
-      let ethereal = {
-        "name" : "Ethereal",
-        "cost" : 0,
-        "checked" : false,
-        "effect" : "Ignore modifiers (positive or negative) when making save rolls for attacks that target this model."
-      };
-      let fly = {
-        "name" : "Fly",
-        "cost" : 0,
-        "checked" : false,
-        "effect" : "This model can fly."
-      }
-      abilityList.push(ethereal);
-      abilityList.push(fly);
-    }
+    abilityList.push.apply(abilityList, ancestry.abilities);
     keywords.push.apply(keywords, ancestry.keywords);
     pointCost = ancestry.cost;
   }
@@ -538,7 +572,7 @@ function draw() {
   }
 
   if (secondWeapon != null){
-    if(secondWeapon.name != "Shield" && secondWeapon.name != "None"){
+    if(!secondWeapon.name.includes("Shield") && secondWeapon.name != "None"){
       allWeapons.push(secondWeapon);
     }
     pointCost += secondWeapon.cost;
@@ -584,15 +618,34 @@ function draw() {
       pointCost += abilities[i].cost;
     }
   }
-  if(ancestry != null && firstWeapon != null && (firstWeapon.onehanded == false || secondWeapon != null)){
-    timesTakenList.push.apply(timesTakenList, charEnhancements);
+  if(ancestry != null && firstWeapon != null && (firstWeapon.onehanded == false || secondWeapon != null) && archetype != null){
+    for (let i = 0; i < enhancements.length; i++) {
+      var ce = enhancements[i];
+      if(ce.allowed.length == 0){
+        timesTakenList.push(ce);
+      }
+      else if(anyElementInList(ce.allowed, ancestry.keywords)){
+        timesTakenList.push(ce);
+      }
+    }
+  }
+
+  for(let i = 0; i < allWeapons.length; i++){
+    if(allWeapons[i].name.includes("Nadirite")){
+      let a = {
+        "name" : "Nadirite Weapons",
+        "cost" : 0,
+        "effect" : "If the unmodified hit roll for an attack made with a Nadirite weapon is 6, that attack scores 2 hits on the target instead of 1. Make a wound and save roll for each hit."
+      }
+      abilityList.push(a);
+    }
   }
 
   updateTimesTaken(timesTakenList);
   drawBaseStats(baseStats);
   textSize(10);
   drawKeywords(keywordsString(keywords));
-  for(var i = 0; i < allWeapons.length; i++){
+  for(let i = 0; i < allWeapons.length; i++){
     let weapon = allWeapons[i];
     if(weapon.type == "melee"){
       meleeWeapons.push(weapon);
@@ -602,19 +655,19 @@ function draw() {
     }
   }
   if (meleeWeapons.length > 0){
-    drawWeapons(meleeWeapons, "MELEE WEAPONS", 120);
-    rightHeight += 20*(meleeWeapons.length + 1);
+    drawWeapons(meleeWeapons, "MELEE WEAPONS", rightHeight);
+    rightHeight += 5+20*(meleeWeapons.length + 1);
   }
   if (missileWeapons.length > 0){
-  drawWeapons(missileWeapons, "MISSILE WEAPONS",120 + 50*meleeWeapons.length);
+    drawWeapons(missileWeapons, "MISSILE WEAPONS",rightHeight);
     rightHeight += 5+20*(missileWeapons.length + 1);
   }
+
   if(tableList.length > 0){
-    drawTables(tableList, rightHeight + 50);
+    drawTables(tableList, rightHeight);
     rightHeight += 130 * tableList.length;
   }
-  drawAbilities(abilityList, rightHeight + 15);
-  let a = abilities;
+  drawAbilities(abilityList, rightHeight);
 
   drawPointCost(pointCost, timesTakenList);
   var ev = document.getElementById("name").value;
@@ -666,36 +719,37 @@ function addFaction(){
 
 function addFirstWeapon(){
   document.getElementById("weapon1").style.display = "inline-block";
-  for(var i = 0; i < weapons.onehanded.length; i++)
+  var w = getWeapons();
+  for(var i = 0; i < w.onehanded.length; i++)
     {
-      addElement(weapons.onehanded[i].name , "weapon1-dropdown", setFirstWeapon, weapons.onehanded[i]);
+      addElement(w.onehanded[i].name , "weapon1-dropdown", setFirstWeapon, w.onehanded[i]);
     }
-  for(i = 0; i < weapons.twohanded.length; i++)
+  for(i = 0; i < w.twohanded.length; i++)
     {
-      addElement(weapons.twohanded[i].name, "weapon1-dropdown", setFirstWeapon, weapons.twohanded[i]);
+      addElement(w.twohanded[i].name, "weapon1-dropdown", setFirstWeapon, w.twohanded[i]);
     }
 }
 
 function addSecondWeapon(){
+  var w = getWeapons();
   if(firstWeapon.onehanded || firstWeapon.name == "Bow"){
     document.getElementById("weapon2").style.display = "inline-block";
-  for(var i = 0; i < weapons.onehanded.length; i++)
+    for(var i = 0; i < w.onehanded.length; i++)
     {
-      if(weapons.onehanded[i].type != "missile"){
-        addElement(weapons.onehanded[i].name , "weapon2-dropdown", setSecondWeapon, weapons.onehanded[i]);
+      if(w.onehanded[i].type != "missile" && (w.standard || (w.standard == false && w.onehanded[i].name != firstWeapon.name))){
+        addElement(w.onehanded[i].name , "weapon2-dropdown", setSecondWeapon, w.onehanded[i]);
       }
-
     }
     if((ancestry == null || !ancestry.keywords.includes("MALIGNANT")) && firstWeapon.type != "missile"){
-      addElement(weapons.shield.name , "weapon2-dropdown", setSecondWeapon, weapons.shield);
+      for(var j = 0; j < w.shields.length; j++){
+        addElement(w.shields[j].name, "weapon2-dropdown", setSecondWeapon, w.shields[j]);
+      }
     }
-
-    addElement(weapons.none.name , "weapon2-dropdown", setSecondWeapon, weapons.none);
+    addElement(w.none.name , "weapon2-dropdown", setSecondWeapon, w.none);
   }
 }
 
 function addArchetype(){
-  document.getElementById("archetype").style.display = "inline-block";
   var i = 0;
   if(ancestry == null){
     for(i = 0; i < archetypes.length; i++){
@@ -703,30 +757,41 @@ function addArchetype(){
     }
   }
   else {
+    var count = 0;
     for(i = 0; i < archetypes.length; i++)
     {
       var restrictions = archetypes[i].restrictions;
-      if(factionKeyword == "Clans Pestilens, Nurgle" && archetypes[i].name == "ACOLYTE"){
-        addElement(archetypes[i].name, "archetype-dropdown", setArchetype, archetypes[i]);
+      var allowed = archetypes[i].allowed;
+      if(allowed.includes(factionKeyword) || anyElementInList(allowed, ancestry.keywords)){
+        addElement(archetypes[i].name, "archetype-dropdown", setArchetype, archetypes[i]); 
+        count += 1;  
       }
-      if(!anyElementInList(restrictions, ancestry.keywords) && !anyElementInList(restrictions, [factionKeyword.toUpperCase()])){
+      if(restrictions.length != 0 && !anyElementInList(restrictions, ancestry.keywords) && !anyElementInList(restrictions, [factionKeyword.toUpperCase()])){
           addElement(archetypes[i].name, "archetype-dropdown", setArchetype, archetypes[i]);
+          count += 1;
       }
     }
+  }
+  if(count == 0){
+    document.getElementById("archetypecategory").style.display = "none";
+  }
+  else{
+    document.getElementById("archetypecategory").style.display = "inline-block";
   }
 }
 
 function addArchetypeOption(){
-  document.getElementById("archetypeoption").style.display = "inline-block";
-  resetArchetypeOption();
-  for(var i = 0; i < archetype.options.length; i++){
-    addElement(archetype.options[i], "archetypeoption-dropdown", setArchetypeOption,  archetype.options[i]);
+  if(archetype.options.length > 0){
+    document.getElementById("archetypeoption").style.display = "inline-block";
+    for(var i = 0; i < archetype.options.length; i++){
+      addElement(archetype.options[i], "archetypeoption-dropdown", setArchetypeOption,  archetype.options[i]);
+    }
   }
 }
 
 function addCompanion(){
   for(var i = 0; i < companions.length; i++){
-    if(!(ancestry != null && anyElementInList(ancestry.keywords, companions[i].restrictions))){
+    if(!(ancestry != null && anyElementInList(ancestry.keywords, companions[i].restrictions) || (archetype != null && anyElementInList(archetype.keywords, companions[i].restrictions)))){
       addElement(companions[i].name, "companion-dropdown", setCompanion,  companions[i]);
     }
   }
@@ -806,10 +871,16 @@ function addCharacterEnhancements(b){
     }
   }
 
-  if(ancestry != null && firstWeapon != null && (firstWeapon.onehanded == false || secondWeapon != null)){
-    var ce = charEnhancements;
-    for (let i = 0; i < ce.length; i++) {
-      addEnhancementElement(ce[i], "characterenhancements");
+  if(ancestry != null && firstWeapon != null && (firstWeapon.onehanded == false || secondWeapon != null) && archetype != null){
+    setEnhancements();
+    for (let i = 0; i < enhancements.length; i++) {
+    var ce = enhancements[i];
+      if(ce.allowed.length == 0){
+        addEnhancementElement(ce, "characterenhancements");
+      }
+      else if(anyElementInList(ce.allowed, ancestry.keywords)){
+        addEnhancementElement(ce, "characterenhancements");
+      }
     }
   }
 }
@@ -832,6 +903,8 @@ function setAncestry(a) {
   if(ancestry.armykeywords.length > 0) {
     addFaction();
   }
+  checkResetWeapons();
+  addFirstWeapon();
   checkResetArchetype();
   addArchetype();
   checkResetCompanion();
@@ -850,7 +923,7 @@ function setFirstWeapon(weapon){
   firstWeapon = weapon;
   firstWeaponaux = Object.assign({}, weapon);
   document.getElementById("weapon1-span").textContent = "2.1. " + firstWeapon.name;
-  if(secondWeaponaux != null && secondWeaponaux.name == "Shield"){
+  if(secondWeaponaux != null && secondWeaponaux.name.includes("Shield")){
     wasShield = true;
   }
   else{
@@ -864,14 +937,14 @@ function setFirstWeapon(weapon){
 
 function setSecondWeapon(weapon){
   secondWeapon = weapon;
-  if(secondWeaponaux != null && secondWeaponaux.name == "Shield"){
+  if(secondWeaponaux != null && secondWeaponaux.name.includes("Shield")){
     wasShield = true;
   }
   else{
     wasShield = false;
   }
-  secondWeaponaux = weapon;
-  if(secondWeapon.name == "Shield"){
+  secondWeaponaux = Object.assign({}, weapon);
+  if(secondWeapon.name.includes("Shield")){
     isShield = true;
   }
   else{
@@ -887,9 +960,14 @@ function setArchetype(a){
   archetypeOption1 = {
     "name" : archetype.name,
     "cost" : 0,
-    "effect" : archetype.description
+    "effect" : archetype.description,
+    "height" : archetype.height
   }
+  resetArchetypeOption();
   addArchetypeOption();
+
+  checkResetCompanion();
+  addCompanion();
   addCharacterExtras(false);
 }
 
@@ -927,18 +1005,26 @@ function resetFaction(){
   document.getElementById("faction").style.display = "none";
 }
 
+function resetFirstWeapon(){
+  firstWeapon = null;
+  firstWeaponaux = null;
+  document.getElementById("weapon1-span").textContent = "2.1. Select Weapon";
+  document.getElementById("weapon1-dropdown").innerHTML = '';
+  resetSecondWeapon();
+}
+
 function resetSecondWeapon(){
   secondWeapon = null;
   secondWeaponaux = null;
   document.getElementById("weapon2-span").textContent = "2.2. Select Second Weapon";
   document.getElementById("weapon2-dropdown").innerHTML = '';
   document.getElementById("weapon2").style.display = "none";
-  secondWeapon = null;
 }
 
 function resetArchetype(){
   archetype = null;
   archetypeOption1 = null;
+  baseStats.spells = 1;
   leftHeight = 160;
   document.getElementById("archetype-span").textContent = "3.1. Select Archetype";
   document.getElementById("archetype-dropdown").innerHTML = '';
@@ -950,12 +1036,16 @@ function resetArchetypeOption(){
   archetypeOption2 = null;
   document.getElementById("archetypeoption-span").textContent = "3.2. Select Ability";
   document.getElementById("archetypeoption-dropdown").innerHTML = '';
+  document.getElementById("archetypeoption").style.display = "none";
+
 }
 
 function resetCompanion(){
   companion = null;
   document.getElementById("companion-span").textContent = "4.1. Select Bestial Companion";
   document.getElementById("companion-dropdown").innerHTML = '';
+  resetCompanionAbilities();
+  resetCompanionEnhancements();
 }
 
 function resetCompanionAbilities(){
@@ -993,15 +1083,15 @@ function resetCharacterAbilities(){
 }
 
 function resetCharacterEnhancements(){
-  charEnhancements = charenhanceaux;
+  enhancements = charenhanceaux;
   var node = document.getElementById("characterenhancements");
   node.innerHTML = '';
-  if(ancestry != null && firstWeapon != null && (firstWeapon.onehanded == false || secondWeapon != null)){
+  if(ancestry != null && firstWeapon != null && (firstWeapon.onehanded == false || secondWeapon != null) && archetype != null){
     var spannode = document.createElement("span");
     spannode.innerHTML = "5.2. Select Characteristic Enhancements";
     node.appendChild(spannode);
   }
-  for (let i = 0; i < charEnhancements.length; i++) {
-    charEnhancements[i].taken = 0;
+  for (let i = 0; i < enhancements.length; i++) {
+    enhancements[i].taken = 0;
   }
 }
