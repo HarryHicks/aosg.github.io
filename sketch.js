@@ -50,6 +50,9 @@ function checkResetWeapons(){
     if(!list.includes(firstWeaponaux.name)){
       resetFirstWeapon();
     }
+    else if(firstWeapon.name == secondWeapon.name){
+      resetFirstWeapon();
+    }
     else{
       document.getElementById("weapon1-dropdown").innerHTML = '';
     }
@@ -159,6 +162,8 @@ function addEnhancementElement(enhancement, id){
       divnode2.appendChild(addEnhancementBox(enhancement, firstWeapon, firstWeaponaux));
     }
     if(secondWeapon != null && secondWeapon.name != "None" && !secondWeapon.name.includes("Shield") && (secondWeapon.random == false || enhancement.stat != "damage")){
+      if(firstWeapon.name == secondWeapon.name){
+      }
       divnode2.appendChild(addEnhancementBox(enhancement, secondWeapon, secondWeaponaux));
     }
   }
@@ -212,6 +217,7 @@ function checkResetAbilities(stat){
 
 function addition(enhancement, obj){
   let o = obj[enhancement.stat];
+  console.log(firstWeapon, secondWeapon, firstWeapon === secondWeapon);
   if(enhancement.taken < enhancement.max && enhancement.limit - o != 0){
     enhancement.taken += 1;
     if(typeof o == "string"){
@@ -618,6 +624,9 @@ function draw() {
   if(ancestry != null){
     abilityList.push.apply(abilityList, ancestry.abilities);
     keywords.push.apply(keywords, ancestry.keywords);
+    if(tables[ancestry.name]){
+      tableList.push(tables[ancestry.name]);
+    }
     pointCost = ancestry.cost;
   }
   if(factionKeyword != ""){
@@ -836,11 +845,11 @@ function addArchetype(){
     {
       var restrictions = archetypes[i].restrictions;
       var allowed = archetypes[i].allowed;
-      if(allowed.includes(factionKeyword) || anyElementInList(allowed, ancestry.keywords)){
+      if(allowed.includes(factionKeyword) || anyElementInList(allowed, ancestry.keywords) || allowed.includes(ancestry.name)){
         addElement(archetypes[i].name, "archetype-dropdown", setArchetype, archetypes[i]); 
         count += 1;  
       }
-      if(restrictions.length != 0 && !anyElementInList(restrictions, ancestry.keywords) && !anyElementInList(restrictions, [factionKeyword.toUpperCase()])){
+      if(restrictions.length != 0 && !anyElementInList(restrictions, ancestry.keywords) && !anyElementInList(restrictions, [factionKeyword.toUpperCase()]) && !restrictions.includes(ancestry.name)){
           addElement(archetypes[i].name, "archetype-dropdown", setArchetype, archetypes[i]);
           count += 1;
       }
@@ -998,7 +1007,7 @@ function setFaction(word){
 }
 
 function setFirstWeapon(weapon){
-  firstWeapon = weapon;
+  firstWeapon = Object.assign({}, weapon);
   firstWeaponaux = Object.assign({}, weapon);
   document.getElementById("weapon1-span").textContent = "2.1. " + firstWeapon.name;
   if(secondWeaponaux != null && secondWeaponaux.name.includes("Shield")){
@@ -1020,7 +1029,7 @@ function setFirstWeapon(weapon){
 }
 
 function setSecondWeapon(weapon){
-  secondWeapon = weapon;
+  secondWeapon = Object.assign({}, weapon);
   if(secondWeaponaux != null && secondWeaponaux.name.includes("Shield")){
     wasShield = true;
   }
@@ -1041,7 +1050,7 @@ function setSecondWeapon(weapon){
     baseStats.save += 1;
   }
   document.getElementById("weapon2-span").textContent = "2.2. " + secondWeapon.name;
-  addCharacterExtras(false);
+  addCharacterExtras(true);
 }
 
 function setArchetype(a){
@@ -1173,9 +1182,7 @@ function resetCharacterAbilities(){
 
 function resetCharacterEnhancements(){
   enhancements = charenhanceaux;
-  console.log(spiritHostWeapons, spiritHostWeaponsAux)
   spiritHostWeapons = Object.assign({}, spiritHostWeaponsAux);
-  console.log(spiritHostWeapons, spiritHostWeaponsAux)
   var node = document.getElementById("characterenhancements");
   node.innerHTML = '';
   if(ancestry != null && firstWeapon != null && (firstWeapon.onehanded == false || secondWeapon != null) && archetype != null){
