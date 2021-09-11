@@ -1,4 +1,4 @@
-var abilities = [
+var charAbilities = [
   {
     "name" : "Ethereal",
     "cost" : 4,
@@ -105,7 +105,7 @@ var abilities = [
   }
 ]
 
-var undeadabilities = [
+var undeadAbilities = [
   {
     "name" : "Dark Acolyte",
     "cost" : 3,
@@ -198,8 +198,8 @@ var undeadabilities = [
     "name" : "Ethereal Nature",
     "cost" : 4,
     "checked" : false,
-    "restrictions" : ["save3+"],
-    "allowed" : [],
+    "restrictions" : [],
+    "allowed" : ["save4"],
     "effect" : "Ignore modifiers (positive and negative) when making save rolls for attacks that target this model." 
   },
   {
@@ -233,7 +233,15 @@ var undeadabilities = [
     "restrictions" : [],
     "allowed" : [],
     "effect" : "In your hero phase, you can roll a dice for this model, if you do so, on a 4+, heal up to D3 wounds allocated to this model."
-  }
+  },
+  {
+    "name" : "Spirit Host",
+    "cost" : 4,
+    "checked" : false,
+    "restrictions" : [],
+    "allowed" : [],
+    "effect" : "This hero is accompanied by a host of spirits that attack with their Spectral Claws and Daggers. For rules purposes, they are treated in the same manner as a mount."
+  },
 ]
 
 var companionAbilities = [

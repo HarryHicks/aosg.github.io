@@ -387,17 +387,6 @@ var courtWeapons = {
       "cost" : 2
     }
   ],
-  "Spectral Claws and Daggers" : {
-    "name" : "Spectral Claws and Daggers",
-    "type" : "melee",
-    "range" : 1,
-    "attacks" : 2,
-    "hit" : 5,
-    "wound" : 5,
-    "rend" : 0,
-    "damage" : 1,
-    "cost" : 4
-  },
   "shields" : [
     {
     "name" : "Shield",
@@ -609,6 +598,20 @@ var ossiarchWeapons = {
     "cost" : 0
   }
 }
+
+var spiritHostWeapons = {
+  "name" : "Spirit Host Weapons",
+  "type" : "melee",
+  "range" : 1,
+  "attacks" : 2,
+  "hit" : 5,
+  "wound" : 5,
+  "rend" : 0,
+  "damage" : 1,
+  "cost" : 0
+}
+var spiritHostWeaponsAux = Object.assign({}, spiritHostWeapons);
+
 
 var companionWeapons = {
   "Small Claws" : {

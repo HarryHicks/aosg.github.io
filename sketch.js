@@ -24,6 +24,8 @@
   var companionWeaponsaux = [];
   var enhancements = charEnhancements;
   var charenhanceaux = charEnhancements;
+  var abilities = charAbilities;
+  var abilitiesaux = charAbilities;
   var companionenhanceaux = companionEnhancements;
   var meleeWeaponsHeight;
   var missileWeaponsHeight;
@@ -47,6 +49,9 @@ function checkResetWeapons(){
     }
     if(!list.includes(firstWeaponaux.name)){
       resetFirstWeapon();
+    }
+    else{
+      document.getElementById("weapon1-dropdown").innerHTML = '';
     }
   }
   else{
@@ -157,6 +162,9 @@ function addEnhancementElement(enhancement, id){
       divnode2.appendChild(addEnhancementBox(enhancement, secondWeapon, secondWeaponaux));
     }
   }
+  else if(enhancement.weapon == "sh"){
+    divnode2.appendChild(addEnhancementBox(enhancement, spiritHostWeapons, spiritHostWeaponsAux));
+  }
   else{
     divnode2.appendChild(addEnhancementBox(enhancement, baseStats, ancestry));
   }
@@ -196,16 +204,23 @@ function addEnhancementBox(enhancement, obj, obj2){
   return divnode;
 }
 
+function checkResetAbilities(stat){
+  if(stat.includes("save")){
+    addCharacterAbilities();
+  }
+}
+
 function addition(enhancement, obj){
   let o = obj[enhancement.stat];
   if(enhancement.taken < enhancement.max && enhancement.limit - o != 0){
     enhancement.taken += 1;
     if(typeof o == "string"){
-      obj[enhancement.stat] = "*+" + enhancement.taken* enhancement.amount ;
+      o = "*+" + enhancement.taken* enhancement.amount ;
     }
     else {
       obj[enhancement.stat] += enhancement.amount;
     }
+    checkResetAbilities(enhancement.stat);
   }
 }
 
@@ -227,6 +242,7 @@ function subtraction(enhancement, obj, obj2){
         obj[enhancement.stat] = "*+" + enhancement.taken * enhancement.amount;
       }
     }
+    checkResetAbilities(enhancement.stat);
   }
 }
 
@@ -263,6 +279,9 @@ function setCheck(name, list){
   for(var i = 0; i < list.length; i++){
     if(name == list[i].name){
       list[i].checked = !list[i].checked;
+      if(name == "Spirit Host"){
+        addCharacterEnhancements(true);
+      }
     }
   }
 }
@@ -310,7 +329,10 @@ function saveWarscroll(){
 
 function updateTimesTaken(list){
   for (let i = 0; i < list.length; i++) {
-    document.getElementById(list[i].name + " takenbox").innerHTML = "taken: " + list[i].taken;
+    var elem = document.getElementById(list[i].name + " takenbox");
+    if(elem){
+      elem.innerHTML = "taken: " + list[i].taken;
+    }
   }
 }
 
@@ -364,6 +386,41 @@ function setEnhancements(){
   }
   
 }
+
+function setAbilities(){
+  if(ancestry != null){
+    if(["ABHORRANT", "COURTIER", "MORTISAN", "LIEGE"].includes(ancestry.name)){
+      abilitiesaux = undeadAbilities;
+      abilities = undeadAbilities;
+    }
+    else{
+      abilitiesaux = charAbilities;
+      abilities = charAbilities;
+    }
+  }
+  else{
+    abilitiesaux = charAbilities;
+    abilities = charAbilities;
+  }
+  
+}
+
+function checkSave(number){
+  if(baseStats.save < parseInt(number)){
+    return true;
+  }
+  return false;
+} 
+
+function checkAbility(name){
+  for(var i = 0; i < abilities.length; i++){
+    if(abilities[i].name == name && abilities[i].checked) {
+      return true;
+    }
+  }
+  return false;
+}
+
 /*----------------------DRAW FUNCTIONS--------------------------*/
 function drawAbilities(list, startPoint){
   var lists = splitAbilities(list);
@@ -512,7 +569,7 @@ function drawWeapons(weapons, type, startPoint){
     let m = weapons[i];
     let n = startPoint + 20*i;
     fill(color('black'));
-    text(m.name, 200 , n);
+    text(m.name, 180 , n);
     text(m.range + '"', 320, n);
     text(m.attacks, 365, n);
     text(m.hit+ '+', 415, n);
@@ -614,6 +671,18 @@ function draw() {
       if(abilities[i].name == "Battle Standard Bearer"){
         keywords.push("TOTEM");
       }
+      if(abilities[i].name == "Spirit Host"){
+        allWeapons.push(spiritHostWeapons);
+        var ft = {
+          "name" : "Frightful touch",
+          "cost" : 0,
+          "checked" : false,
+          "restrictions" : [],
+          "allowed" : [],
+          "effect" : "If the unmodified hit roll for an attack made with this model’s Spectral Claws and Daggers is 6, that attack inflicts 1 mortal wound on the target and the attack sequence ends (do not make a wound or save roll)."
+        }
+        abilityList.push(ft);
+      }
       abilityList.push(abilities[i]);
       pointCost += abilities[i].cost;
     }
@@ -625,6 +694,10 @@ function draw() {
         timesTakenList.push(ce);
       }
       else if(anyElementInList(ce.allowed, ancestry.keywords)){
+        timesTakenList.push(ce);
+      }
+      else if(ce.name = "Spirit Host")
+      {
         timesTakenList.push(ce);
       }
     }
@@ -705,7 +778,7 @@ function setup() {
   addFirstWeapon();
   addArchetype();
   addCompanion();
-  addCharacterExtras(false);
+  addCharacterExtras(true);
   document.getElementById("savebutton").onclick = function(){saveWarscroll()};
 }
 
@@ -719,15 +792,16 @@ function addFaction(){
 
 function addFirstWeapon(){
   document.getElementById("weapon1").style.display = "inline-block";
+  
   var w = getWeapons();
   for(var i = 0; i < w.onehanded.length; i++)
     {
       addElement(w.onehanded[i].name , "weapon1-dropdown", setFirstWeapon, w.onehanded[i]);
-    }
+  }
   for(i = 0; i < w.twohanded.length; i++)
     {
       addElement(w.twohanded[i].name, "weapon1-dropdown", setFirstWeapon, w.twohanded[i]);
-    }
+  }
 }
 
 function addSecondWeapon(){
@@ -846,12 +920,19 @@ function addCharacterExtras(b){
 function addCharacterAbilities(){
   resetCharacterAbilities();
   var i;
+  setAbilities();
   for(i = 0; i < abilities.length; i++){
     var a = abilities[i];
     if(a.allowed.length == 0 || archetype == null){
       addAbilityElement(a, "characterabilities", abilities);
     }
     else if(archetype != null && anyElementInList(a.allowed, archetype.keywords)){
+      addAbilityElement(a, "characterabilities", abilities);
+    }
+    else if(companion != null && a.allowed.includes(companion.name)){
+      addAbilityElement(a, "characterabilities", abilities);
+    }
+    else if(a.allowed[0].includes("save") && !checkSave(a.allowed[0][4])){
       addAbilityElement(a, "characterabilities", abilities);
     }
     else{
@@ -861,16 +942,10 @@ function addCharacterAbilities(){
 }
 
 function addCharacterEnhancements(b){
-  resetCharacterEnhancements();
-  if(b == true){
-    if(isShield == true && wasShield == false){
-      baseStats.save += -1;
-    }
-    else if (isShield == false && wasShield == true){
-      baseStats.save += 1;
-    }
+  if(b){
+    resetCharacterEnhancements();
   }
-
+  
   if(ancestry != null && firstWeapon != null && (firstWeapon.onehanded == false || secondWeapon != null) && archetype != null){
     setEnhancements();
     for (let i = 0; i < enhancements.length; i++) {
@@ -879,6 +954,9 @@ function addCharacterEnhancements(b){
         addEnhancementElement(ce, "characterenhancements");
       }
       else if(anyElementInList(ce.allowed, ancestry.keywords)){
+        addEnhancementElement(ce, "characterenhancements");
+      }
+      else if(ce.allowed.includes("UNDEAD COMPANION") && checkAbility("Spirit Host")){
         addEnhancementElement(ce, "characterenhancements");
       }
     }
@@ -909,7 +987,7 @@ function setAncestry(a) {
   addArchetype();
   checkResetCompanion();
   addCompanion();
-  addCharacterExtras(false);
+  addCharacterExtras(true);
 }
 
 function setFaction(word){
@@ -930,9 +1008,15 @@ function setFirstWeapon(weapon){
     wasShield = false;
   }
   isShield = false;
+  if(isShield == true && wasShield == false){
+    baseStats.save += -1;
+  }
+  else if (isShield == false && wasShield == true){
+    baseStats.save += 1;
+  }
   resetSecondWeapon();
   addSecondWeapon();
-  addCharacterEnhancements(true);
+  addCharacterExtras(false);
 }
 
 function setSecondWeapon(weapon){
@@ -950,8 +1034,14 @@ function setSecondWeapon(weapon){
   else{
     isShield = false;
   }
+  if(isShield == true && wasShield == false){
+    baseStats.save += -1;
+  }
+  else if (isShield == false && wasShield == true){
+    baseStats.save += 1;
+  }
   document.getElementById("weapon2-span").textContent = "2.2. " + secondWeapon.name;
-  addCharacterEnhancements(true);
+  addCharacterExtras(false);
 }
 
 function setArchetype(a){
@@ -968,7 +1058,7 @@ function setArchetype(a){
 
   checkResetCompanion();
   addCompanion();
-  addCharacterExtras(false);
+  addCharacterExtras(true);
 }
 
 function setArchetypeOption(option){
@@ -1070,7 +1160,6 @@ function resetCompanionEnhancements(){
   for (let i = 0; i < companionEnhancements.length; i++) {
     companionEnhancements[i].taken = 0;
   }
-
 }
 
 function resetCharacterAbilities(){
@@ -1084,6 +1173,9 @@ function resetCharacterAbilities(){
 
 function resetCharacterEnhancements(){
   enhancements = charenhanceaux;
+  console.log(spiritHostWeapons, spiritHostWeaponsAux)
+  spiritHostWeapons = Object.assign({}, spiritHostWeaponsAux);
+  console.log(spiritHostWeapons, spiritHostWeaponsAux)
   var node = document.getElementById("characterenhancements");
   node.innerHTML = '';
   if(ancestry != null && firstWeapon != null && (firstWeapon.onehanded == false || secondWeapon != null) && archetype != null){
