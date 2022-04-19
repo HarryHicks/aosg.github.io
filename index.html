@@ -1,43 +1,56 @@
-<!DOCTYPE html><html lang="en"><head>
+<!DOCTYPE html>
+<html lang="en">
+  <head>
     <meta name="google-site-verification" content="ebjSFcuDiWvZOqs-ExG4MpLWwob9LRjMrjZPuihG7NY" />
     <!-- Global site tag (gtag.js) - Google Analytics -->
-  <script async src="https://www.googletagmanager.com/gtag/js?id=G-1NLFRYVRZH"></script>
-  <script>
-    window.dataLayer = window.dataLayer || [];
-    function gtag(){dataLayer.push(arguments);}
-    gtag('js', new Date());
-
-    gtag('config', 'G-1NLFRYVRZH');
-  </script>
-    <script src="p5.js"></script>
-    <script src="p5.sound.min.js"></script>
-    <script src="abilities.js"></script>
-    <script src="ancestries.js"></script>
-    <script src="archetypes.js"></script>
-    <script src="charenhance.js"></script>
-    <script src="companions.js"></script>
-    <script src="tables.js"></script>
-    <script src="sketch.js"></script>
-    <script src="weapons.js"></script>
+    <script async src="https://www.googletagmanager.com/gtag/js?id=G-1NLFRYVRZH">
+    </script>
+    <script>
+      window.dataLayer = window.dataLayer || [];
+      function gtag(){
+        dataLayer.push(arguments);
+      }
+      gtag('js', new Date());
+      gtag('config', 'G-1NLFRYVRZH');
+    </script>
+    <script src="p5.js">
+    </script>
+    <script src="p5.sound.min.js">
+    </script>
+    <script src="abilities.js">
+    </script>
+    <script src="ancestries.js">
+    </script>
+    <script src="archetypes.js">
+    </script>
+    <script src="charenhance.js">
+    </script>
+    <script src="companions.js">
+    </script>
+    <script src="tables.js">
+    </script>
+    <script src="sketch.js">
+    </script>
+    <script src="weapons.js">
+    </script>
     <link rel="stylesheet" type="text/css" href="style.css">
     <meta charset="utf-8">
-
-
   </head>
   <body>
-
     <div class ="mainbody" id="mainbody">
       <div class ="category" id="ancestrycategory">
         <input type="button" id="ancestrycategorybutton" value="+" onclick="setVisible('ancestrycategory')">
         1. Ancestry
         <div class="subcategory">
           <div class="dropdown">
-            <span id="ancestry-span">1.1. Select Ancestry</span>
+            <span id="ancestry-span">1.1. Select Ancestry
+            </span>
             <div id="ancestry-dropdown" class="dropdown-content">
             </div>
           </div>
           <div id="faction" class="dropdown">
-            <span id="faction-span">1.2. Select Faction</span>
+            <span id="faction-span">1.2. Select Faction
+            </span>
             <div id="faction-dropdown" class="dropdown-content">
             </div>
           </div>
@@ -48,12 +61,14 @@
         2. The Armoury
         <div class="subcategory">
           <div id="weapon1" class="dropdown">
-            <span id="weapon1-span">2.1. Select Weapon</span>
+            <span id="weapon1-span">2.1. Select Weapon
+            </span>
             <div id="weapon1-dropdown" class="dropdown-content">
             </div>
           </div>
           <div id="weapon2" class="dropdown">
-            <span id="weapon2-span">2.2. Select Weapon</span>
+            <span id="weapon2-span">2.2. Select Weapon
+            </span>
             <div id="weapon2-dropdown" class="dropdown-content">
             </div>
           </div>
@@ -64,12 +79,14 @@
         3. Archetype
         <div class="subcategory">
           <div id="archetype" class="dropdown">
-            <span id="archetype-span">3.1. Select Archetype</span>
+            <span id="archetype-span">3.1. Select Archetype
+            </span>
             <div id="archetype-dropdown" class="dropdown-content">
             </div>
           </div>
           <div id="archetypeoption" class="dropdown">
-            <span id="archetypeoption-span">3.2. Select Ability</span>
+            <span id="archetypeoption-span">3.2. Select Ability
+            </span>
             <div id="archetypeoption-dropdown" class="dropdown-content">
             </div>
           </div>  
@@ -80,7 +97,8 @@
         4. Bestial Companion
         <div class="subcategory">
           <div id="companion" class="dropdown">
-            <span id="companion-span">4.1. Select Bestial Companion</span>
+            <span id="companion-span">4.1. Select Bestial Companion
+            </span>
             <div id="companion-dropdown" class="dropdown-content">
             </div>
           </div>
@@ -104,15 +122,15 @@
         <input type="button" id="namecategorybutton" value="+" onclick="setVisible('namecategory')">
         6. Naming your hero
         <div class="subcategory">
-          <span>6.1. Character Name</span>
+          <span>6.1. Character Name
+          </span>
           <input type="text" id="name">
-          <span>6.2. Character title</span>
+          <span>6.2. Character title
+          </span>
           <input type="text" id="title">
         </div>
       </div>
       <input type="button" value="Download Warscroll" id="savebutton">
     </div>
-    
-
-
-</body></html>
+  </body>
+</html>
